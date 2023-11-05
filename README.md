@@ -35,7 +35,7 @@ You should see a statement that says 'Connected to redis://localhost:6379/'
 
 3. Finally, run the web app:
 ```
-Type 'python3 app.py' on the terminal.
+Type 'flask -A app.py --debug run' on the terminal.
 
 Port: 5000 (that is, the web app can be accessed locally at: http://127.0.0.1:5000/)
 
@@ -45,5 +45,5 @@ We can change the port that the Flask app is running on by changing "app.run()" 
 
 # Citing ENQUIRE-Web
 
-Please cite ROBUST-Web as follows:
+Please cite ENQUIRE-Web as follows:
 - Will be updated once available.

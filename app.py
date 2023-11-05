@@ -13,6 +13,7 @@ from flask_apscheduler import APScheduler
 import os
 import time
 from jsonmerge import merge
+import random
 
 ########################## SET MODE: ############################################
 mode=1 # Manually set: 0 (runtime testing) or 1 (actually running the app)
@@ -531,6 +532,7 @@ def _convert_dict_to_json(outputData_dict):
 
 @app.route('/run_enquire_temp2', methods=['POST'])
 def run_enquire_temp2():
+    _mode_=1
     custom_id = _generate_custom_id()
     PARAMETER1=_initialize_dropdown_params_visualizations()
     param1, alpha, beta, gamma, delta, tau, filepath_nodes, filename_nodes, filepath_edges, filename_edges, filepath_lit, filename_lit = _initialize_input_params_visualizations(PARAMETER1)
@@ -655,281 +657,675 @@ def run_enquire_temp2():
             # node_param_list, edge_param_list, lit_param_list = _check_params(nodes_df, edges_df, lit_df)
             error_flag_input_data, node_params_list, edge_params_list, lit_params_list=_check_params(nodes_df, edges_df, lit_df)
             if error_flag_input_data==0:
-                nodes_df___Representativeness=nodes_df[['Node', 'Category', 'Representativeness']]
-                nodes_df___Representativeness_sorted=nodes_df___Representativeness.sort_values('Representativeness', ascending=False)
-                barchartList_Representativeness=[]
-                barchartList_Representativeness_categories=[]
-                barchartList_Representativeness_data=[]
-                
-                colors_Representativeness=[]
-
-                count=0
-                gene_color='#ff0000'
-                mesh_color='#00ff00'
-                for index, row in nodes_df___Representativeness_sorted.iterrows():
-                    count+=1
-                    if (count>20):
-                        break
-                    barchartList_Representativeness.append([str(row['Node']), float(row['Representativeness'])])
-                    barchartList_Representativeness_categories.append(str(row['Node']))
-                    barchartList_Representativeness_data.append(float(row['Representativeness']))
-                    if row['Category']=='GENE':
-                        colors_Representativeness.append(gene_color)
-                    elif row['Category']=='MESH':
-                        colors_Representativeness.append(mesh_color)
-                # --------------------------------------------------------------------------------
-                # nodes_df___RawOccurrence=nodes_df[['Node', 'Category', 'Raw_occurrence']]
-                # nodes_df___RawOccurrence_sorted=nodes_df___RawOccurrence.sort_values('Raw_occurrence', ascending=False)
-                # barchartList_RawOccurrence=[]
-                # colors_RawOccurrence=[]
-                # count=0
-                # gene_color='#ff0000'
-                # mesh_color='#00ff00'
-                # for index, row in nodes_df___RawOccurrence_sorted.iterrows():
-                #     count+=1
-                #     if (count>20):
-                #         break
-                #     barchartList_RawOccurrence.append([str(row['Node']), float(row['Raw_occurrence'])])
-                #     if row['Category']=='GENE':
-                #         colors_RawOccurrence.append(gene_color)
-                #     elif row['Category']=='MESH':
-                #         colors_RawOccurrence.append(mesh_color)
-                # # --------------------------------------------------------------------------------
-                # nodes_df___BetweennessCentrality=nodes_df[['Node', 'Category', 'Betweenness_centrality']]
-                # nodes_df___BetweennessCentrality_sorted=nodes_df___BetweennessCentrality.sort_values('Betweenness_centrality', ascending=False)
-                # barchartList_BetweennessCentrality=[]
-                # colors_BetweennessCentrality=[]
-                # count=0
-                # gene_color='#ff0000'
-                # mesh_color='#00ff00'
-                # for index, row in nodes_df___BetweennessCentrality_sorted.iterrows():
-                #     count+=1
-                #     if (count>20):
-                #         break
-                #     barchartList_BetweennessCentrality.append([str(row['Node']), float(row['Betweenness_centrality'])])
-                #     if row['Category']=='GENE':
-                #         colors_BetweennessCentrality.append(gene_color)
-                #     elif row['Category']=='MESH':
-                #         colors_BetweennessCentrality.append(mesh_color)
-                # # --------------------------------------------------------------------------------
-                # nodes_df___ClosenessCentrality=nodes_df[['Node', 'Category', 'Closeness_centrality']]
-                # nodes_df___ClosenessCentrality_sorted=nodes_df___ClosenessCentrality.sort_values('Closeness_centrality', ascending=False)
-                # barchartList_ClosenessCentrality=[]
-                # colors_ClosenessCentrality=[]
-                # count=0
-                # gene_color='#ff0000'
-                # mesh_color='#00ff00'
-                # for index, row in nodes_df___ClosenessCentrality_sorted.iterrows():
-                #     count+=1
-                #     if (count>20):
-                #         break
-                #     barchartList_ClosenessCentrality.append([str(row['Node']), float(row['Closeness_centrality'])])
-                #     if row['Category']=='GENE':
-                #         colors_ClosenessCentrality.append(gene_color)
-                #     elif row['Category']=='MESH':
-                #         colors_ClosenessCentrality.append(mesh_color)
-                # # --------------------------------------------------------------------------------
-                # nodes_df___Strength=nodes_df[['Node', 'Category', 'Strength']]
-                # nodes_df___Strength_sorted=nodes_df___Strength.sort_values('Strength', ascending=False)
-                # barchartList_Strength=[]
-                # colors_Strength=[]
-                # count=0
-                # gene_color='#ff0000'
-                # mesh_color='#00ff00'
-                # for index, row in nodes_df___Strength_sorted.iterrows():
-                #     count+=1
-                #     if (count>20):
-                #         break
-                #     barchartList_Strength.append([str(row['Node']), float(row['Strength'])])
-                #     if row['Category']=='GENE':
-                #         colors_Strength.append(gene_color)
-                #     elif row['Category']=='MESH':
-                #         colors_Strength.append(mesh_color)
-                # # --------------------------------------------------------------------------------
-                # nodes_df___Wscore=nodes_df[['Node', 'Category', 'Wscore']]
-                # nodes_df___Wscore_sorted=nodes_df___Wscore.sort_values('Wscore', ascending=False)
-                # barchartList_Wscore=[]
-                # colors_Wscore=[]
-                # count=0
-                # gene_color='#ff0000'
-                # mesh_color='#00ff00'
-                # for index, row in nodes_df___Wscore_sorted.iterrows():
-                #     count+=1
-                #     if (count>20):
-                #         break
-                #     barchartList_Wscore.append([str(row['Node']), float(row['Wscore'])])
-                #     if row['Category']=='GENE':
-                #         colors_Wscore.append(gene_color)
-                #     elif row['Category']=='MESH':
-                #         colors_Wscore.append(mesh_color)
-                # # --------------------------------------------------------------------------------
-                # nodes_df___Knode=nodes_df[['Node', 'Category', 'Knode']]
-
-                # nodes_df__Knode_sorted=nodes_df___Knode.sort_values('Knode', ascending=False)
-                # barchartList_Knode=[]
-                # colors_Knode=[]
-                # count=0
-                # gene_color='#ff0000'
-                # mesh_color='#00ff00'
-                # for index, row in nodes_df__Knode_sorted.iterrows():
-                #     count+=1
-                #     if (count>20):
-                #         break
-                #     barchartList_Knode.append([str(row['Node']), float(row['Knode'])])
-                #     if row['Category']=='GENE':
-                #         colors_Knode.append(gene_color)
-                #     elif row['Category']=='MESH':
-                #         colors_Knode.append(mesh_color)
-                # # --------------------------------------------------------------------------------
-                # nodes_df___KnodeRank=nodes_df[['Node', 'Category', 'Knode_rank']]
-                # nodes_df__KnodeRank_sorted=nodes_df___KnodeRank.sort_values('Knode_rank', ascending=False)
-                # barchartList_KnodeRank=[]
-                # colors_KnodeRank=[]
-                # count=0
-                # gene_color='#ff0000'
-                # mesh_color='#00ff00'
-                # for index, row in nodes_df__KnodeRank_sorted.iterrows():
-                #     count+=1
-                #     if (count>20):
-                #         break
-                #     barchartList_KnodeRank.append([str(row['Node']), float(row['Knode_rank'])])
-                #     if row['Category']=='GENE':
-                #         colors_KnodeRank.append(gene_color)
-                #     elif row['Category']=='MESH':
-                #         colors_KnodeRank.append(mesh_color)
-                # # --------------------------------------------------------------------------------
-                # nodes_df___CommunityMembership=nodes_df[['Node', 'Category', 'Community_membership']]
-                # nodes_df__CommunityMembership_sorted=nodes_df___CommunityMembership.sort_values('Community_membership', ascending=False)
-                # barchartList_CommunityMembership=[]
-                # colors_CommunityMembership=[]
-                # count=0
-                # gene_color='#ff0000'
-                # mesh_color='#00ff00'
-                # for index, row in nodes_df__CommunityMembership_sorted.iterrows():
-                #     count+=1
-                #     if (count>20):
-                #         break
-                #     barchartList_CommunityMembership.append([str(row['Node']), float(row['Community_membership'])])
-                #     if row['Category']=='GENE':
-                #         colors_CommunityMembership.append(gene_color)
-                #     elif row['Category']=='MESH':
-                #         colors_CommunityMembership.append(mesh_color)
-                # # --------------------------------------------------------------------------------
+                if _mode_==1:
+                    nodes_df___Representativeness=nodes_df[['Node', 'Category', 'Representativeness']]
+                    nodes_df___Representativeness_sorted=nodes_df___Representativeness.sort_values('Representativeness', ascending=False)
+                    barchartList_Representativeness=[]
+                    barchartList_Representativeness_categories=[]
+                    barchartList_Representativeness_data=[]
                     
-                # return type(barchartList_Representativeness[0][0])
-                # return type(barchartList_Representativeness[0][0]).__name__
-                # return colors_Representativeness[4]
-                
-                
-                
-                # # Sort by Ascending
-                # df2 = df.sort_values('Courses')
-                # # Sort by Descending
-                # df2 = df.sort_values('Courses', ascending=False)
-                # # Sort by multiple columns
-                # df2 = df.sort_values(by=['Courses','Fee'])
+                    colors_Representativeness=[]
 
-                # return barchartList_Representativeness[19][0]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df___Representativeness_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_Representativeness.append([str(row['Node']), float(row['Representativeness'])])
+                        barchartList_Representativeness_categories.append(str(row['Node']))
+                        barchartList_Representativeness_data.append(float(row['Representativeness']))
+                        if row['Category']=='GENE':
+                            colors_Representativeness.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_Representativeness.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___RawOccurrence=nodes_df[['Node', 'Category', 'Raw_occurrence']]
+                    nodes_df___RawOccurrence_sorted=nodes_df___RawOccurrence.sort_values('Raw_occurrence', ascending=False)
+                    barchartList_RawOccurrence=[]
+                    colors_RawOccurrence=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df___RawOccurrence_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_RawOccurrence.append([str(row['Node']), float(row['Raw_occurrence'])])
+                        if row['Category']=='GENE':
+                            colors_RawOccurrence.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_RawOccurrence.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___BetweennessCentrality=nodes_df[['Node', 'Category', 'Betweenness_centrality']]
+                    nodes_df___BetweennessCentrality_sorted=nodes_df___BetweennessCentrality.sort_values('Betweenness_centrality', ascending=False)
+                    barchartList_BetweennessCentrality=[]
+                    colors_BetweennessCentrality=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df___BetweennessCentrality_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_BetweennessCentrality.append([str(row['Node']), float(row['Betweenness_centrality'])])
+                        if row['Category']=='GENE':
+                            colors_BetweennessCentrality.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_BetweennessCentrality.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___ClosenessCentrality=nodes_df[['Node', 'Category', 'Closeness_centrality']]
+                    nodes_df___ClosenessCentrality_sorted=nodes_df___ClosenessCentrality.sort_values('Closeness_centrality', ascending=False)
+                    barchartList_ClosenessCentrality=[]
+                    colors_ClosenessCentrality=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df___ClosenessCentrality_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_ClosenessCentrality.append([str(row['Node']), float(row['Closeness_centrality'])])
+                        if row['Category']=='GENE':
+                            colors_ClosenessCentrality.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_ClosenessCentrality.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___Strength=nodes_df[['Node', 'Category', 'Strength']]
+                    nodes_df___Strength_sorted=nodes_df___Strength.sort_values('Strength', ascending=False)
+                    barchartList_Strength=[]
+                    colors_Strength=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df___Strength_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_Strength.append([str(row['Node']), float(row['Strength'])])
+                        if row['Category']=='GENE':
+                            colors_Strength.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_Strength.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___Wscore=nodes_df[['Node', 'Category', 'Wscore']]
+                    nodes_df___Wscore_sorted=nodes_df___Wscore.sort_values('Wscore', ascending=False)
+                    barchartList_Wscore=[]
+                    colors_Wscore=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df___Wscore_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_Wscore.append([str(row['Node']), float(row['Wscore'])])
+                        if row['Category']=='GENE':
+                            colors_Wscore.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_Wscore.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___Knode=nodes_df[['Node', 'Category', 'Knode']]
+
+                    nodes_df__Knode_sorted=nodes_df___Knode.sort_values('Knode', ascending=False)
+                    barchartList_Knode=[]
+                    colors_Knode=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df__Knode_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_Knode.append([str(row['Node']), float(row['Knode'])])
+                        if row['Category']=='GENE':
+                            colors_Knode.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_Knode.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___KnodeRank=nodes_df[['Node', 'Category', 'Knode_rank']]
+                    nodes_df__KnodeRank_sorted=nodes_df___KnodeRank.sort_values('Knode_rank', ascending=False)
+                    barchartList_KnodeRank=[]
+                    colors_KnodeRank=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df__KnodeRank_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_KnodeRank.append([str(row['Node']), float(row['Knode_rank'])])
+                        if row['Category']=='GENE':
+                            colors_KnodeRank.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_KnodeRank.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___CommunityMembership=nodes_df[['Node', 'Category', 'Community_membership']]
+                    nodes_df__CommunityMembership_sorted=nodes_df___CommunityMembership.sort_values('Community_membership', ascending=False)
+                    barchartList_CommunityMembership=[]
+                    colors_CommunityMembership=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df__CommunityMembership_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_CommunityMembership.append([str(row['Node']), float(row['Community_membership'])])
+                        if row['Category']=='GENE':
+                            colors_CommunityMembership.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_CommunityMembership.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+
+                    # ######################################################################################################################################################
+
+                    node_data=pd.read_csv(new_filepath_nodes, sep=sep_nodes)
+                    edge_data=pd.read_csv(new_filepath_edges, sep=sep_edges)
+                    lit_data=pd.read_csv(new_filepath_lit, sep=sep_lit)
+
+                    node_list=[]
+                    node_list_final=[]
+
+                    list_of_nodes=[]
+                    
+                    gene_color='#E8544E'
+                    mesh_color='#FFD265'
+
+                    _list_of_nodes_=[]
+                    for index, row in node_data.iterrows():
+                        _list_of_nodes_.append(str(row['Node']))
+                    _list_of_nodes_=list(set(_list_of_nodes_))
+
+                    dict_expansion_color={0: 'red', 1: 'yellow', 2: 'blue', 3: 'green', 4: 'purple', 5: 'orange', 6: 'pink'}
+                    edge_list=[]
+                    # ----------------------------------
+                    edgeList_keys=['Node 1', 'Node 2', 'Associated literature']
+                    node1_edgeList=[]
+                    node2_edgeList=[]
+                    literature_edgeList=[]
+                    # querySet_edgeList=[]
+                    # ----------------------------------
+                    list_of_nodes_in_edge_list=[]
+                    for index, row in edge_data.iterrows():
+                        if str(row['Node1']) in  _list_of_nodes_ and str(row['Node2']) in  _list_of_nodes_:
+                            list_of_nodes_in_edge_list.append(str(row['Node1']))
+                            list_of_nodes_in_edge_list.append(str(row['Node2']))
+                            # ---------------------------------------------------
+                            lit_data_df=lit_data.loc[(lit_data['Node1'] == str(row['Node1'])) & (lit_data['Node2'] == str(row['Node2']))]
+                            lit_data_df_link=lit_data_df['link'].tolist()
+                            lit_data_df_QuerySet=lit_data_df['QuerySet'].tolist()
+
+                            lit_data_df2=lit_data.loc[(lit_data['Node1'] == str(row['Node2'])) & (lit_data['Node2'] == str(row['Node1']))]
+                            lit_data_df2_link=lit_data_df2['link'].tolist()
+                            lit_data_df2_QuerySet=lit_data_df2['QuerySet'].tolist()
+
+                            lit_data_df_link=list(set(lit_data_df_link).union(set(lit_data_df2_link)))
+                            lit_data_df_QuerySet=list(set(lit_data_df_QuerySet).union(set(lit_data_df2_QuerySet)))
+                            # ---------------------------------------------------
+                            # # RESPONSE WITHOUT EDGE_LITERATURE_DATA:
+                            # edge_list.append([str(row['Node1']), str(row['Node2']), dict_expansion_color[row['Expansion']]])
+                            # # RESPONSE WITH EDGE_LITERATURE_DATA:
+                            # # Variation-1:
+                            # lit_data_df_link='\n'.join(lit_data_df_link)
+                            # lit_data_df_QuerySet='\n'.join(lit_data_df_QuerySet)
+                            # edge_list.append([str(row['Node1']), str(row['Node2']), dict_expansion_color[row['Expansion']], lit_data_df_link, lit_data_df_QuerySet])
+                            # # Variation-2:
+                            # # # # # edge_list.append([str(row['Node1']), str(row['Node2']), dict_expansion_color[row['Expansion']], lit_data_df_link, lit_data_df_QuerySet])
+                            edge_list.append([str(row['Node1']), str(row['Node2']), 'black', lit_data_df_link, lit_data_df_QuerySet])
+                            # ---------------------------------------------------
+                            node1_edgeList.append(str(row['Node1']))
+                            node2_edgeList.append(str(row['Node2']))
+                            literature_edgeList.append(lit_data_df_link)
+                            # querySet_edgeList.append(lit_data_df_QuerySet)
+
+                    list_of_nodes_in_edge_list=list(set(list_of_nodes_in_edge_list))
+                    edgeList_values=pd.DataFrame([node1_edgeList, node2_edgeList, literature_edgeList])
+                    edgeList_values=edgeList_values.transpose()
+                    edgeList_values.columns=edgeList_keys
+                    # edgeList_values=edgeList_values.transpose()
+                    edgeList_json=edgeList_values.to_json(orient="records")
+
+                    ###############################################################################################################
+                        
+                    for index, row in node_data.iterrows():
+
+                        if str(row['Node']) in list_of_nodes_in_edge_list: # for nodes contained only in edges
+                        # if str(row['Node']) in _list_of_nodes_: # for all nodes
+
+                            list_of_nodes.append(str(row['Node']))
+
+                            rad=float(row['Wscore'])*50
+                            
+                            
+                            if str(row['Category'])=='GENE':
+                                
+                                data = {
+                                    "id": str(row['Node']),
+                                    "marker": {
+                                        "radius": float(rad)},
+                                    # # "color": '#E8544E'
+                                    # "color": '#000000'
+                                    }
+                                
+                                data_json=json.dumps(data)
+                                data_json=json.loads(data_json)
+                                node_list.append(data_json)
+
+                            
+                            elif str(row['Category'])=='MESH':
+                                
+                                data = {
+                                    "id": str(row['Node']),
+                                    "marker": {
+                                        "radius": float(rad)},
+                                    # # "color": '#FFD265'
+                                    # "color": '#000000'
+                                    }
+                                
+                                data_json=json.dumps(data)
+                                data_json=json.loads(data_json)
+                                node_list.append(data_json)
+                            
+                    list_of_nodes=list(set(list_of_nodes))
+
+                # ################################################################
+
+                elif _mode_==2:
+                    nodes_df___Representativeness=nodes_df[['Node', 'Category', 'Representativeness']]
+                    nodes_df___Representativeness_sorted=nodes_df___Representativeness.sort_values('Representativeness', ascending=False)
+                    barchartList_Representativeness=[]
+                    barchartList_Representativeness_categories=[]
+                    barchartList_Representativeness_data=[]
+                    
+                    colors_Representativeness=[]
+
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df___Representativeness_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_Representativeness.append([str(row['Node']), float(row['Representativeness'])])
+                        barchartList_Representativeness_categories.append(str(row['Node']))
+                        barchartList_Representativeness_data.append(float(row['Representativeness']))
+                        if row['Category']=='GENE':
+                            colors_Representativeness.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_Representativeness.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___RawOccurrence=nodes_df[['Node', 'Category', 'Raw_occurrence']]
+                    nodes_df___RawOccurrence_sorted=nodes_df___RawOccurrence.sort_values('Raw_occurrence', ascending=False)
+                    barchartList_RawOccurrence=[]
+                    colors_RawOccurrence=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df___RawOccurrence_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_RawOccurrence.append([str(row['Node']), float(row['Raw_occurrence'])])
+                        if row['Category']=='GENE':
+                            colors_RawOccurrence.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_RawOccurrence.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___BetweennessCentrality=nodes_df[['Node', 'Category', 'Betweenness_centrality']]
+                    nodes_df___BetweennessCentrality_sorted=nodes_df___BetweennessCentrality.sort_values('Betweenness_centrality', ascending=False)
+                    barchartList_BetweennessCentrality=[]
+                    colors_BetweennessCentrality=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df___BetweennessCentrality_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_BetweennessCentrality.append([str(row['Node']), float(row['Betweenness_centrality'])])
+                        if row['Category']=='GENE':
+                            colors_BetweennessCentrality.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_BetweennessCentrality.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___ClosenessCentrality=nodes_df[['Node', 'Category', 'Closeness_centrality']]
+                    nodes_df___ClosenessCentrality_sorted=nodes_df___ClosenessCentrality.sort_values('Closeness_centrality', ascending=False)
+                    barchartList_ClosenessCentrality=[]
+                    colors_ClosenessCentrality=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df___ClosenessCentrality_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_ClosenessCentrality.append([str(row['Node']), float(row['Closeness_centrality'])])
+                        if row['Category']=='GENE':
+                            colors_ClosenessCentrality.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_ClosenessCentrality.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___Strength=nodes_df[['Node', 'Category', 'Strength']]
+                    nodes_df___Strength_sorted=nodes_df___Strength.sort_values('Strength', ascending=False)
+                    barchartList_Strength=[]
+                    colors_Strength=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df___Strength_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_Strength.append([str(row['Node']), float(row['Strength'])])
+                        if row['Category']=='GENE':
+                            colors_Strength.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_Strength.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___Wscore=nodes_df[['Node', 'Category', 'Wscore']]
+                    nodes_df___Wscore_sorted=nodes_df___Wscore.sort_values('Wscore', ascending=False)
+                    barchartList_Wscore=[]
+                    colors_Wscore=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df___Wscore_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_Wscore.append([str(row['Node']), float(row['Wscore'])])
+                        if row['Category']=='GENE':
+                            colors_Wscore.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_Wscore.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___Knode=nodes_df[['Node', 'Category', 'Knode']]
+
+                    nodes_df__Knode_sorted=nodes_df___Knode.sort_values('Knode', ascending=False)
+                    barchartList_Knode=[]
+                    colors_Knode=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df__Knode_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_Knode.append([str(row['Node']), float(row['Knode'])])
+                        if row['Category']=='GENE':
+                            colors_Knode.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_Knode.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___KnodeRank=nodes_df[['Node', 'Category', 'Knode_rank']]
+                    nodes_df__KnodeRank_sorted=nodes_df___KnodeRank.sort_values('Knode_rank', ascending=False)
+                    barchartList_KnodeRank=[]
+                    colors_KnodeRank=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df__KnodeRank_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_KnodeRank.append([str(row['Node']), float(row['Knode_rank'])])
+                        if row['Category']=='GENE':
+                            colors_KnodeRank.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_KnodeRank.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+                    nodes_df___CommunityMembership=nodes_df[['Node', 'Category', 'Community_membership']]
+                    nodes_df__CommunityMembership_sorted=nodes_df___CommunityMembership.sort_values('Community_membership', ascending=False)
+                    barchartList_CommunityMembership=[]
+                    colors_CommunityMembership=[]
+                    count=0
+                    gene_color='#ff0000'
+                    mesh_color='#00ff00'
+                    for index, row in nodes_df__CommunityMembership_sorted.iterrows():
+                        count+=1
+                        # if (count>20):
+                        #     break
+                        barchartList_CommunityMembership.append([str(row['Node']), float(row['Community_membership'])])
+                        if row['Category']=='GENE':
+                            colors_CommunityMembership.append(gene_color)
+                        elif row['Category']=='MESH':
+                            colors_CommunityMembership.append(mesh_color)
+                    # # --------------------------------------------------------------------------------
+
+                    # ######################################################################################################################################################
+
+                    node_data=pd.read_csv(new_filepath_nodes, sep=sep_nodes)
+                    edge_data=pd.read_csv(new_filepath_edges, sep=sep_edges)
+                    lit_data=pd.read_csv(new_filepath_lit, sep=sep_lit)
+
+                    node_list=[]
+                    list_of_nodes=[]
+
+
+                    # gene_color='#E8544E'
+                    # mesh_color='#FFD265'
+
+                    _list_of_nodes_=[]
+                    for index, row in node_data.iterrows():
+                        _list_of_nodes_.append(str(row['Node']))
+                    _list_of_nodes_=list(set(_list_of_nodes_))
+                    
+                    
+                    edge_list=[]
+                    _edge_list_=[]
+                    # ----------------------------------
+                    edgeList_keys=['Node 1', 'Node 2', 'Associated literature']
+                    node1_edgeList=[]
+                    node2_edgeList=[]
+                    literature_edgeList=[]
+                    # ----------------------------------
+                    list_of_nodes_in_edge_list=[]
+                    for index, row in edge_data.iterrows():
+                        if str(row['Node1']) in  _list_of_nodes_ and str(row['Node2']) in  _list_of_nodes_:
+                            list_of_nodes_in_edge_list.append(str(row['Node1']))
+                            list_of_nodes_in_edge_list.append(str(row['Node2']))
+                            # ---------------------------------------------------
+                            lit_data_df=lit_data.loc[(lit_data['Node1'] == str(row['Node1'])) & (lit_data['Node2'] == str(row['Node2']))]
+                            lit_data_df_link=lit_data_df['link'].tolist()
+                            lit_data_df_QuerySet=lit_data_df['QuerySet'].tolist()
+
+                            lit_data_df2=lit_data.loc[(lit_data['Node1'] == str(row['Node2'])) & (lit_data['Node2'] == str(row['Node1']))]
+                            lit_data_df2_link=lit_data_df2['link'].tolist()
+                            lit_data_df2_QuerySet=lit_data_df2['QuerySet'].tolist()
+
+                            lit_data_df_link=list(set(lit_data_df_link).union(set(lit_data_df2_link)))
+                            lit_data_df_QuerySet=list(set(lit_data_df_QuerySet).union(set(lit_data_df2_QuerySet)))
+                            # ---------------------------------------------------
+                            # # RESPONSE WITHOUT EDGE_LITERATURE_DATA:
+                            # edge_list.append([str(row['Node1']), str(row['Node2']), dict_expansion_color[row['Expansion']]])
+                            # # RESPONSE WITH EDGE_LITERATURE_DATA:
+                            # # Variation-1:
+                            # lit_data_df_link='\n'.join(lit_data_df_link)
+                            # lit_data_df_QuerySet='\n'.join(lit_data_df_QuerySet)
+                            # edge_list.append([str(row['Node1']), str(row['Node2']), dict_expansion_color[row['Expansion']], lit_data_df_link, lit_data_df_QuerySet])
+                            # # Variation-2:
+                            # # # # # edge_list.append([str(row['Node1']), str(row['Node2']), dict_expansion_color[row['Expansion']], lit_data_df_link, lit_data_df_QuerySet])
+                            edge_list.append([str(row['Node1']), str(row['Node2']), 'black', lit_data_df_link, lit_data_df_QuerySet])
+                            _edge_list_.append((str(row['Node1']), str(row['Node2'])))
+                            # ---------------------------------------------------
+                            node1_edgeList.append(str(row['Node1']))
+                            node2_edgeList.append(str(row['Node2']))
+                            literature_edgeList.append(lit_data_df_link)
+                            # querySet_edgeList.append(lit_data_df_QuerySet)
+                    list_of_nodes_in_edge_list=list(set(list_of_nodes_in_edge_list))
+
+
+                    for index, row in node_data.iterrows():
+                        if str(row['Node']) in list_of_nodes_in_edge_list: # for nodes contained only in edges
+                        # if str(row['Node']) in _list_of_nodes_: # for all nodes
+
+                            list_of_nodes.append(str(row['Node']))
+
+                            rad=float(row['Wscore'])*50
+                            
+                            
+                            if str(row['Category'])=='GENE':
+                                
+                                data = {
+                                    "id": str(row['Node']),
+                                    "marker": {
+                                        "radius": float(rad)},
+                                    # # "color": '#E8544E'
+                                    # "color": '#000000'
+                                    }
+                                
+                                data_json=json.dumps(data)
+                                data_json=json.loads(data_json)
+                                node_list.append(data_json)
+
+                            
+                            elif str(row['Category'])=='MESH':
+                                
+                                data = {
+                                    "id": str(row['Node']),
+                                    "marker": {
+                                        "radius": float(rad)},
+                                    # # "color": '#FFD265'
+                                    # "color": '#000000'
+                                    }
+                                
+                                data_json=json.dumps(data)
+                                data_json=json.loads(data_json)
+                                node_list.append(data_json)
+                            
+                    list_of_nodes=list(set(list_of_nodes))
+                    
+
+                    # ##############################################################################################################
+
+                    node_data_input_=node_data.sample(n = 75)
+                    edge_data_input_=edge_data.sample(n = 75)
+
+                    node_list_input_=[]
+                    list_of_nodes_input_=[]
+
+                    _list_of_nodes_input_=[]
+                    for index, row in node_data_input_.iterrows():
+                        _list_of_nodes_input_.append(str(row['Node']))
+                    _list_of_nodes_input_=list(set(_list_of_nodes_input_))
+
+                    edge_list_input_=[]
+                    # ----------------------------------
+                    # edgeList_keys_input_=['Node 1', 'Node 2', 'Associated literature']
+                    # ----------------------------------
+                    list_of_nodes_in_edge_list_input_=[]
+                    for index, row in edge_data_input_.iterrows():
+                        if str(row['Node1']) in  _list_of_nodes_input_ and str(row['Node2']) in  _list_of_nodes_input_:
+                            list_of_nodes_in_edge_list_input_.append(str(row['Node1']))
+                            list_of_nodes_in_edge_list_input_.append(str(row['Node2']))
+                            # ---------------------------------------------------
+                            edge_list_input_.append((str(row['Node1']), str(row['Node2'])))
+                            # ---------------------------------------------------
+                    
+                    list_of_nodes_in_edge_list_input_=list(set(list_of_nodes_in_edge_list_input_))
+
+
+                    ###############################################################################################################
+                    # -----------
+                    NODES_original_and_output=[] # "color: #2caffe"
+                    NODES_original_minus_output=[] # "color: red"
+                    NODES_output_minus_original=[] # "color: gray"
+                    # -----------
+                    EDGES_original_and_output=[] # "color: #2caffe"
+                    EDGES_original_minus_output=[] # "color: red"
+                    EDGES_output_minus_original=[] # "color: gray"
+                    # -----------
+                    for i in node_list:
+                        if i["id"] in list_of_nodes_in_edge_list_input_:
+                            j=i.copy()
+                            j["color"]="#2caffe"
+                            NODES_original_and_output.append(j)
+                        else:
+                            j=i.copy()
+                            j["color"]="gray"
+                            NODES_output_minus_original.append(j)
+                    for i in edge_list:
+                        if ((i[0], i[1]) in edge_list_input_) or ((i[1], i[0]) in edge_list_input_):
+                            j=i.copy()
+                            j[2]="#2caffe"
+                            EDGES_original_and_output.append(j)
+                        else:
+                            j=i.copy()
+                            j[2]="gray"
+                            EDGES_output_minus_original.append(j)
+                    for i in list_of_nodes_in_edge_list_input_:
+                        if not(i in list_of_nodes_in_edge_list):
+                            j=i.copy()
+                            j["color"]="red"
+                            NODES_original_minus_output.append(j)
+                    for i in edge_list_input_:
+                        if not ((i[0], i[1]) in _edge_list_) or ((i[1], i[0]) in _edge_list_):
+                            j=i.copy()
+                            j[2]="red"
+                            EDGES_original_minus_output.append(j)
+                    # -----------
+
+                    _NODES_=[]
+                    _EDGES_=[]
+
+                    for i in NODES_original_and_output:
+                        _NODES_.append(i)
+                    for i in NODES_original_minus_output:
+                        _NODES_.append(i)
+                    for i in NODES_output_minus_original:
+                        _NODES_.append(i)
+                    node_list=_NODES_.copy()
+                    
+                    for i in EDGES_original_and_output:
+                        _EDGES_.append(i)
+                    for i in EDGES_original_minus_output:
+                        _EDGES_.append(i)
+                    for i in EDGES_output_minus_original:
+                        _EDGES_.append(i)
+                    edge_list=_EDGES_.copy()
+
+                    # -----------
+
+
+                    edgeList_keys=['Node 1', 'Node 2', 'Associated literature']
+                    node1_edgeList=[]
+                    node2_edgeList=[]
+                    literature_edgeList=[]
+                    for i in edge_list:
+                        node1_edgeList.append(i[0])
+                        node2_edgeList.append(i[1])
+                        literature_edgeList.append(['lit_data_df_link'])
+                    edgeList_values=pd.DataFrame([node1_edgeList, node2_edgeList, literature_edgeList])
+                    edgeList_values=edgeList_values.transpose()
+                    edgeList_values.columns=edgeList_keys
+                    # edgeList_values=edgeList_values.transpose()
+                    edgeList_json=edgeList_values.to_json(orient="records")             
+
+
 
                 # ######################################################################################################################################################
-
-                node_data=pd.read_csv(new_filepath_nodes, sep='\t')
-                edge_data=pd.read_csv(new_filepath_edges, sep='\t')
-                lit_data=pd.read_csv(new_filepath_lit, sep='\t')
-
-                node_list=[]
-                node_list_final=[]
-
-                list_of_nodes=[]
+                # return str(len(_list_of_nodes_))
+                # return str(len(list_of_nodes_in_edge_list))
+                # return str(len(node_list))
+                # -------------
+                # return edge_list
+                # return node_list
+                # return edge_list
+                # return edgeList_json
+                # return colors_Representativeness
+                # return render_template('results_viz_temp.html', barchartList_Representativeness=barchartList_Representativeness, colors_Representativeness=colors_Representativeness, barchartList_Representativeness_data=barchartList_Representativeness_data, barchartList_Representativeness_categories=barchartList_Representativeness_categories, node_list=node_list, edge_list=edge_list, list_of_nodes=list_of_nodes, edgeList_json=edgeList_json)
+                # ##############################
+                # return barchartList_Representativeness
+                # return barchartList_Representativeness
+                return render_template('results_viz_temp.html', barchartList_Representativeness=barchartList_Representativeness, barchartList_RawOccurrence=barchartList_RawOccurrence, barchartList_BetweennessCentrality=barchartList_BetweennessCentrality,
+                barchartList_ClosenessCentrality=barchartList_ClosenessCentrality, barchartList_Strength=barchartList_Strength, barchartList_Wscore=barchartList_Wscore, barchartList_Knode=barchartList_Knode, barchartList_KnodeRank=barchartList_KnodeRank,
+                barchartList_CommunityMembership=barchartList_CommunityMembership,
+                # -----
+                node_list=node_list, edge_list=edge_list, list_of_nodes=list_of_nodes, edgeList_json=edgeList_json)
+                # ##############################
                 
-                gene_color='#E8544E'
-                mesh_color='#FFD265'
-
-                _list_of_nodes_=[]
-                for index, row in node_data.iterrows():
-                    _list_of_nodes_.append(str(row['Node']))
-                _list_of_nodes_=list(set(_list_of_nodes_))
-
-                dict_expansion_color={0: 'red', 1: 'yellow', 2: 'blue', 3: 'green', 4: 'purple', 5: 'orange', 6: 'pink'}
-                edge_list=[]
-                list_of_nodes_in_edge_list=[]
-                for index, row in edge_data.iterrows():
-                    if str(row['Node1']) in  _list_of_nodes_ and str(row['Node2']) in  _list_of_nodes_:
-                        list_of_nodes_in_edge_list.append(str(row['Node1']))
-                        list_of_nodes_in_edge_list.append(str(row['Node2']))
-                        # ---------------------------------------------------
-                        lit_data_df=lit_data.loc[(lit_data['Node1'] == str(row['Node1'])) & (lit_data['Node2'] == str(row['Node2']))]
-                        lit_data_df_link=lit_data_df['link'].tolist()
-                        lit_data_df_QuerySet=lit_data_df['QuerySet'].tolist()
-
-                        lit_data_df2=lit_data.loc[(lit_data['Node1'] == str(row['Node2'])) & (lit_data['Node2'] == str(row['Node1']))]
-                        lit_data_df2_link=lit_data_df2['link'].tolist()
-                        lit_data_df2_QuerySet=lit_data_df2['QuerySet'].tolist()
-
-                        lit_data_df_link=list(set(lit_data_df_link).union(set(lit_data_df2_link)))
-                        lit_data_df_QuerySet=list(set(lit_data_df_QuerySet).union(set(lit_data_df2_QuerySet)))
-                        # ---------------------------------------------------
-                        # # RESPONSE WITHOUT EDGE_LITERATURE_DATA:
-                        # edge_list.append([str(row['Node1']), str(row['Node2']), dict_expansion_color[row['Expansion']]])
-                        # # RESPONSE WITH EDGE_LITERATURE_DATA:
-                        # # Variation-1:
-                        # lit_data_df_link='\n'.join(lit_data_df_link)
-                        # lit_data_df_QuerySet='\n'.join(lit_data_df_QuerySet)
-                        # edge_list.append([str(row['Node1']), str(row['Node2']), dict_expansion_color[row['Expansion']], lit_data_df_link, lit_data_df_QuerySet])
-                        # # Variation-2:
-                        edge_list.append([str(row['Node1']), str(row['Node2']), dict_expansion_color[row['Expansion']], lit_data_df_link, lit_data_df_QuerySet])
-                list_of_nodes_in_edge_list=list(set(list_of_nodes_in_edge_list))
-
-                ###############################################################################################################
-                    
-                for index, row in node_data.iterrows():
-
-                    if str(row['Node']) in list_of_nodes_in_edge_list:
-
-                        list_of_nodes.append(str(row['Node']))
-
-                        rad=float(row['Wscore'])*10
-                        
-                        
-                        if str(row['Category'])=='GENE':
-                            
-                            data = {
-                                "id": str(row['Node']),
-                                "marker": {
-                                    "radius": float(rad)},
-                                "color": '#E8544E'
-                                }
-                            
-                            data_json=json.dumps(data)
-                            data_json=json.loads(data_json)
-                            node_list.append(data_json)
-
-                        
-                        elif str(row['Category'])=='MESH':
-                            
-                            data = {
-                                "id": str(row['Node']),
-                                "marker": {
-                                    "radius": float(rad)},
-                                "color": '#FFD265'
-                                }
-                            
-                            data_json=json.dumps(data)
-                            data_json=json.loads(data_json)
-                            node_list.append(data_json)
-                        
-                list_of_nodes=list(set(list_of_nodes))
-                
-
-                #******************************************************************#
-                # list_of_nodes=list(set(list_of_nodes).intersection(set(list_of_nodes_in_edge_list)))
-                #******************************************************************#
-                
-                
-
-                # ######################################################################################################################################################
-
-                return render_template('results_viz_temp.html', barchartList_Representativeness=barchartList_Representativeness, colors_Representativeness=colors_Representativeness, barchartList_Representativeness_data=barchartList_Representativeness_data, barchartList_Representativeness_categories=barchartList_Representativeness_categories, node_list=node_list, edge_list=edge_list, list_of_nodes=list_of_nodes)
             else:
                 if error_flag_input_data=='1.(nodes)':
                     return render_template('input_error_page_missing_columns.html', error_flag_input_data=error_flag_input_data, node_params_list=node_params_list, error_filename=filename_nodes)
@@ -939,6 +1335,421 @@ def run_enquire_temp2():
                     return render_template('input_error_page_missing_columns.html', error_flag_input_data=error_flag_input_data, lit_params_list=lit_params_list, error_filename=filename_lit)
     
     # # # return render_template('empty_data_path_error.html')
+
+
+
+# @app.route('/run_enquire_temp3', methods=['POST'])
+# def run_enquire_temp2():
+#     custom_id = _generate_custom_id()
+#     PARAMETER1=_initialize_dropdown_params_visualizations()
+#     param1, alpha, beta, gamma, delta, tau, filepath_nodes, filename_nodes, filepath_edges, filename_edges, filepath_lit, filename_lit = _initialize_input_params_visualizations(PARAMETER1)
+#     error_results_viz_temp='0'
+#     if flask.request.method == 'POST':
+#         if filename_nodes=='' or filename_edges=='' or filename_lit=='':
+#             if filename_nodes=='':
+#                 error_results_viz_temp='1.0.(nodes)'
+#                 return render_template('empty_data_path_error.html', error_results_viz_temp=error_results_viz_temp)
+#             if filename_edges=='':
+#                 error_results_viz_temp='1.0.(edges)'
+#                 return render_template('empty_data_path_error.html', error_results_viz_temp=error_results_viz_temp)
+#             if filename_lit=='':
+#                 error_results_viz_temp='1.0.(lit)'
+#                 return render_template('empty_data_path_error.html', error_results_viz_temp=error_results_viz_temp)
+#         # return filename_nodes
+#         else:
+#             if filename_nodes.endswith('csv'):
+#                 sep_nodes=','
+#             elif filename_nodes.endswith('tsv'):
+#                 sep_nodes='\t'
+#             elif filename_nodes.endswith('txt'):
+#                 sep_nodes=' '
+#             else:
+#                 error_results_viz_temp='fileFormatIncorrect'
+#                 fileFormatIncorrect='nodes'
+#                 # return render_template('index.html', error_run_scAnalyzer=error_run_scAnalyzer, fileFormatIncorrect=fileFormatIncorrect, data_uploaded=data_uploaded)
+#                 return render_template('incorrect_file_format_error.html', error_results_viz_temp=error_results_viz_temp, fileFormatIncorrect=fileFormatIncorrect, error_filename=filename_nodes)
+#             try:
+#                 nodes_df=pd.read_csv(filepath_nodes, sep=sep_nodes)
+#             except:
+#                 error_results_viz_temp='fileFormatIncorrect'
+#                 fileFormatIncorrect='nodes'
+#                 # return render_template('index.html', error_run_scAnalyzer=error_run_scAnalyzer, fileFormatIncorrect=fileFormatIncorrect, data_uploaded=data_uploaded)
+#                 return render_template('incorrect_file_format_error.html', error_results_viz_temp=error_results_viz_temp, fileFormatIncorrect=fileFormatIncorrect, error_filename=filename_nodes)
+#             # -------------------------------------------      
+#             if filename_edges.endswith('csv'):
+#                 sep_edges=','
+#             elif filename_edges.endswith('tsv'):
+#                 sep_edges='\t'
+#             elif filename_edges.endswith('txt'):
+#                 sep_edges=' '
+#             else:
+#                 error_results_viz_temp='fileFormatIncorrect'
+#                 fileFormatIncorrect='edges'
+#                 # return render_template('index.html', error_run_scAnalyzer=error_run_scAnalyzer, fileFormatIncorrect=fileFormatIncorrect, data_uploaded=data_uploaded)
+#                 return render_template('incorrect_file_format_error.html', error_results_viz_temp=error_results_viz_temp, fileFormatIncorrect=fileFormatIncorrect, error_filename=filename_edges)
+#             try:
+#                 edges_df=pd.read_csv(filepath_edges, sep=sep_edges)
+#             except:
+#                 error_results_viz_temp='fileFormatIncorrect'
+#                 fileFormatIncorrect='edges'
+#                 # return render_template('index.html', error_run_scAnalyzer=error_run_scAnalyzer, fileFormatIncorrect=fileFormatIncorrect, data_uploaded=data_uploaded)
+#                 return render_template('incorrect_file_format_error.html', error_results_viz_temp=error_results_viz_temp, fileFormatIncorrect=fileFormatIncorrect, error_filename=filename_edges)
+#             # -------------------------------------------
+#             if filename_lit.endswith('csv'):
+#                 sep_lit=','
+#             elif filename_lit.endswith('tsv'):
+#                 sep_lit='\t'
+#             elif filename_lit.endswith('txt'):
+#                 sep_lit=' '
+#             else:
+#                 error_results_viz_temp='fileFormatIncorrect'
+#                 fileFormatIncorrect='lit'
+#                 # return render_template('index.html', error_run_scAnalyzer=error_run_scAnalyzer, fileFormatIncorrect=fileFormatIncorrect, data_uploaded=data_uploaded)
+#                 return render_template('incorrect_file_format_error.html', error_results_viz_temp=error_results_viz_temp, fileFormatIncorrect=fileFormatIncorrect, error_filename=filename_lit)
+#             try:
+#                 lit_df=pd.read_csv(filepath_lit, sep=sep_lit)
+#             except:
+#                 error_results_viz_temp='fileFormatIncorrect'
+#                 fileFormatIncorrect='lit'
+#                 # return render_template('index.html', error_run_scAnalyzer=error_run_scAnalyzer, fileFormatIncorrect=fileFormatIncorrect, data_uploaded=data_uploaded)
+#                 return render_template('incorrect_file_format_error.html', error_results_viz_temp=error_results_viz_temp, fileFormatIncorrect=fileFormatIncorrect, error_filename=filename_lit)
+#             error_run_scAnalyzer='notEnoughRows'
+#             not_enough_data='nodes'
+#             # return render_template('index.html', error_run_scAnalyzer=error_run_scAnalyzer, not_enough_data=not_enough_data, data_uploaded=data_uploaded)
+#             # return render_template('insufficient_data_error.html', error_run_scAnalyzer=error_run_scAnalyzer, not_enough_data=not_enough_data, error_filename=filename_nodes)
+#             # =======================================================================================================
+#             if nodes_df.shape[0] <= 1:
+#                 error_run_scAnalyzer='notEnoughRows'
+#                 not_enough_data='nodes'
+#                 # return render_template('index.html', error_run_scAnalyzer=error_run_scAnalyzer, not_enough_data=not_enough_data, data_uploaded=data_uploaded)
+#                 return render_template('insufficient_data_error.html', error_run_scAnalyzer=error_run_scAnalyzer, not_enough_data=not_enough_data, error_filename=filename_nodes)
+#             if nodes_df.shape[1] <= 2:
+#                 error_run_scAnalyzer='notEnoughColumns'
+#                 not_enough_data='nodes'
+#                 # return render_template('index.html', error_run_scAnalyzer=error_run_scAnalyzer, not_enough_data=not_enough_data, data_uploaded=data_uploaded)
+#                 return render_template('insufficient_data_error.html', error_run_scAnalyzer=error_run_scAnalyzer, not_enough_data=not_enough_data, error_filename=filename_nodes)
+#             # -------------------------------------------
+#             if edges_df.shape[0] <= 1:
+#                 error_run_scAnalyzer='notEnoughRows'
+#                 not_enough_data='edges'
+#                 # return render_template('index.html', error_run_scAnalyzer=error_run_scAnalyzer, not_enough_data=not_enough_data, data_uploaded=data_uploaded)
+#                 return render_template('insufficient_data_error.html', error_run_scAnalyzer=error_run_scAnalyzer, not_enough_data=not_enough_data, error_filename=filename_edges)
+#             if edges_df.shape[1] <= 2:
+#                 error_run_scAnalyzer='notEnoughColumns'
+#                 not_enough_data='edges'
+#                 # return render_template('index.html', error_run_scAnalyzer=error_run_scAnalyzer, not_enough_data=not_enough_data, data_uploaded=data_uploaded)
+#                 return render_template('insufficient_data_error.html', error_run_scAnalyzer=error_run_scAnalyzer, not_enough_data=not_enough_data, error_filename=filename_edges)
+#             # -------------------------------------------
+#             if lit_df.shape[0] <= 1:
+#                 error_run_scAnalyzer='notEnoughRows'
+#                 not_enough_data='lit'
+#                 # return render_template('index.html', error_run_scAnalyzer=error_run_scAnalyzer, not_enough_data=not_enough_data, data_uploaded=data_uploaded)
+#                 return render_template('insufficient_data_error.html', error_run_scAnalyzer=error_run_scAnalyzer, not_enough_data=not_enough_data, error_filename=filename_lit)
+#             if lit_df.shape[1] <= 3:
+#                 error_run_scAnalyzer='notEnoughColumns'
+#                 not_enough_data='lit'
+#                 # return render_template('index.html', error_run_scAnalyzer=error_run_scAnalyzer, not_enough_data=not_enough_data, data_uploaded=data_uploaded)
+#                 return render_template('insufficient_data_error.html', error_run_scAnalyzer=error_run_scAnalyzer, not_enough_data=not_enough_data, error_filename=filename_lit)
+#             # -------------------------------------------
+#             new_filepath_nodes = os.path.join(app.config['UPLOAD_FOLDER'], 'uploaded_node_data')
+#             new_filepath_edges = os.path.join(app.config['UPLOAD_FOLDER'], 'uploaded_edge_data')
+#             new_filepath_lit = os.path.join(app.config['UPLOAD_FOLDER'], 'uploaded_lit_data')
+#             os.rename(filepath_nodes, new_filepath_nodes)
+#             os.rename(filepath_edges, new_filepath_edges)
+#             os.rename(filepath_lit, new_filepath_lit)
+#             nodes_df=pd.read_csv(new_filepath_nodes, sep=sep_nodes)
+#             edges_df=pd.read_csv(new_filepath_edges, sep=sep_edges)
+#             lit_df=pd.read_csv(new_filepath_lit, sep=sep_lit)
+#             # -------------------------------------------
+#             # node_param_list, edge_param_list, lit_param_list = _check_params(nodes_df, edges_df, lit_df)
+#             error_flag_input_data, node_params_list, edge_params_list, lit_params_list=_check_params(nodes_df, edges_df, lit_df)
+#             if error_flag_input_data==0:
+#                 nodes_df___Representativeness=nodes_df[['Node', 'Category', 'Representativeness']]
+#                 nodes_df___Representativeness_sorted=nodes_df___Representativeness.sort_values('Representativeness', ascending=False)
+#                 barchartList_Representativeness=[]
+#                 barchartList_Representativeness_categories=[]
+#                 barchartList_Representativeness_data=[]
+                
+#                 colors_Representativeness=[]
+
+#                 count=0
+#                 gene_color='#ff0000'
+#                 mesh_color='#00ff00'
+#                 for index, row in nodes_df___Representativeness_sorted.iterrows():
+#                     count+=1
+#                     if (count>20):
+#                         break
+#                     barchartList_Representativeness.append([str(row['Node']), float(row['Representativeness'])])
+#                     barchartList_Representativeness_categories.append(str(row['Node']))
+#                     barchartList_Representativeness_data.append(float(row['Representativeness']))
+#                     if row['Category']=='GENE':
+#                         colors_Representativeness.append(gene_color)
+#                     elif row['Category']=='MESH':
+#                         colors_Representativeness.append(mesh_color)
+#                 # --------------------------------------------------------------------------------
+#                 # nodes_df___RawOccurrence=nodes_df[['Node', 'Category', 'Raw_occurrence']]
+#                 # nodes_df___RawOccurrence_sorted=nodes_df___RawOccurrence.sort_values('Raw_occurrence', ascending=False)
+#                 # barchartList_RawOccurrence=[]
+#                 # colors_RawOccurrence=[]
+#                 # count=0
+#                 # gene_color='#ff0000'
+#                 # mesh_color='#00ff00'
+#                 # for index, row in nodes_df___RawOccurrence_sorted.iterrows():
+#                 #     count+=1
+#                 #     if (count>20):
+#                 #         break
+#                 #     barchartList_RawOccurrence.append([str(row['Node']), float(row['Raw_occurrence'])])
+#                 #     if row['Category']=='GENE':
+#                 #         colors_RawOccurrence.append(gene_color)
+#                 #     elif row['Category']=='MESH':
+#                 #         colors_RawOccurrence.append(mesh_color)
+#                 # # --------------------------------------------------------------------------------
+#                 # nodes_df___BetweennessCentrality=nodes_df[['Node', 'Category', 'Betweenness_centrality']]
+#                 # nodes_df___BetweennessCentrality_sorted=nodes_df___BetweennessCentrality.sort_values('Betweenness_centrality', ascending=False)
+#                 # barchartList_BetweennessCentrality=[]
+#                 # colors_BetweennessCentrality=[]
+#                 # count=0
+#                 # gene_color='#ff0000'
+#                 # mesh_color='#00ff00'
+#                 # for index, row in nodes_df___BetweennessCentrality_sorted.iterrows():
+#                 #     count+=1
+#                 #     if (count>20):
+#                 #         break
+#                 #     barchartList_BetweennessCentrality.append([str(row['Node']), float(row['Betweenness_centrality'])])
+#                 #     if row['Category']=='GENE':
+#                 #         colors_BetweennessCentrality.append(gene_color)
+#                 #     elif row['Category']=='MESH':
+#                 #         colors_BetweennessCentrality.append(mesh_color)
+#                 # # --------------------------------------------------------------------------------
+#                 # nodes_df___ClosenessCentrality=nodes_df[['Node', 'Category', 'Closeness_centrality']]
+#                 # nodes_df___ClosenessCentrality_sorted=nodes_df___ClosenessCentrality.sort_values('Closeness_centrality', ascending=False)
+#                 # barchartList_ClosenessCentrality=[]
+#                 # colors_ClosenessCentrality=[]
+#                 # count=0
+#                 # gene_color='#ff0000'
+#                 # mesh_color='#00ff00'
+#                 # for index, row in nodes_df___ClosenessCentrality_sorted.iterrows():
+#                 #     count+=1
+#                 #     if (count>20):
+#                 #         break
+#                 #     barchartList_ClosenessCentrality.append([str(row['Node']), float(row['Closeness_centrality'])])
+#                 #     if row['Category']=='GENE':
+#                 #         colors_ClosenessCentrality.append(gene_color)
+#                 #     elif row['Category']=='MESH':
+#                 #         colors_ClosenessCentrality.append(mesh_color)
+#                 # # --------------------------------------------------------------------------------
+#                 # nodes_df___Strength=nodes_df[['Node', 'Category', 'Strength']]
+#                 # nodes_df___Strength_sorted=nodes_df___Strength.sort_values('Strength', ascending=False)
+#                 # barchartList_Strength=[]
+#                 # colors_Strength=[]
+#                 # count=0
+#                 # gene_color='#ff0000'
+#                 # mesh_color='#00ff00'
+#                 # for index, row in nodes_df___Strength_sorted.iterrows():
+#                 #     count+=1
+#                 #     if (count>20):
+#                 #         break
+#                 #     barchartList_Strength.append([str(row['Node']), float(row['Strength'])])
+#                 #     if row['Category']=='GENE':
+#                 #         colors_Strength.append(gene_color)
+#                 #     elif row['Category']=='MESH':
+#                 #         colors_Strength.append(mesh_color)
+#                 # # --------------------------------------------------------------------------------
+#                 # nodes_df___Wscore=nodes_df[['Node', 'Category', 'Wscore']]
+#                 # nodes_df___Wscore_sorted=nodes_df___Wscore.sort_values('Wscore', ascending=False)
+#                 # barchartList_Wscore=[]
+#                 # colors_Wscore=[]
+#                 # count=0
+#                 # gene_color='#ff0000'
+#                 # mesh_color='#00ff00'
+#                 # for index, row in nodes_df___Wscore_sorted.iterrows():
+#                 #     count+=1
+#                 #     if (count>20):
+#                 #         break
+#                 #     barchartList_Wscore.append([str(row['Node']), float(row['Wscore'])])
+#                 #     if row['Category']=='GENE':
+#                 #         colors_Wscore.append(gene_color)
+#                 #     elif row['Category']=='MESH':
+#                 #         colors_Wscore.append(mesh_color)
+#                 # # --------------------------------------------------------------------------------
+#                 # nodes_df___Knode=nodes_df[['Node', 'Category', 'Knode']]
+
+#                 # nodes_df__Knode_sorted=nodes_df___Knode.sort_values('Knode', ascending=False)
+#                 # barchartList_Knode=[]
+#                 # colors_Knode=[]
+#                 # count=0
+#                 # gene_color='#ff0000'
+#                 # mesh_color='#00ff00'
+#                 # for index, row in nodes_df__Knode_sorted.iterrows():
+#                 #     count+=1
+#                 #     if (count>20):
+#                 #         break
+#                 #     barchartList_Knode.append([str(row['Node']), float(row['Knode'])])
+#                 #     if row['Category']=='GENE':
+#                 #         colors_Knode.append(gene_color)
+#                 #     elif row['Category']=='MESH':
+#                 #         colors_Knode.append(mesh_color)
+#                 # # --------------------------------------------------------------------------------
+#                 # nodes_df___KnodeRank=nodes_df[['Node', 'Category', 'Knode_rank']]
+#                 # nodes_df__KnodeRank_sorted=nodes_df___KnodeRank.sort_values('Knode_rank', ascending=False)
+#                 # barchartList_KnodeRank=[]
+#                 # colors_KnodeRank=[]
+#                 # count=0
+#                 # gene_color='#ff0000'
+#                 # mesh_color='#00ff00'
+#                 # for index, row in nodes_df__KnodeRank_sorted.iterrows():
+#                 #     count+=1
+#                 #     if (count>20):
+#                 #         break
+#                 #     barchartList_KnodeRank.append([str(row['Node']), float(row['Knode_rank'])])
+#                 #     if row['Category']=='GENE':
+#                 #         colors_KnodeRank.append(gene_color)
+#                 #     elif row['Category']=='MESH':
+#                 #         colors_KnodeRank.append(mesh_color)
+#                 # # --------------------------------------------------------------------------------
+#                 # nodes_df___CommunityMembership=nodes_df[['Node', 'Category', 'Community_membership']]
+#                 # nodes_df__CommunityMembership_sorted=nodes_df___CommunityMembership.sort_values('Community_membership', ascending=False)
+#                 # barchartList_CommunityMembership=[]
+#                 # colors_CommunityMembership=[]
+#                 # count=0
+#                 # gene_color='#ff0000'
+#                 # mesh_color='#00ff00'
+#                 # for index, row in nodes_df__CommunityMembership_sorted.iterrows():
+#                 #     count+=1
+#                 #     if (count>20):
+#                 #         break
+#                 #     barchartList_CommunityMembership.append([str(row['Node']), float(row['Community_membership'])])
+#                 #     if row['Category']=='GENE':
+#                 #         colors_CommunityMembership.append(gene_color)
+#                 #     elif row['Category']=='MESH':
+#                 #         colors_CommunityMembership.append(mesh_color)
+#                 # # --------------------------------------------------------------------------------
+                    
+#                 # return type(barchartList_Representativeness[0][0])
+#                 # return type(barchartList_Representativeness[0][0]).__name__
+#                 # return colors_Representativeness[4]
+                
+                
+                
+#                 # # Sort by Ascending
+#                 # df2 = df.sort_values('Courses')
+#                 # # Sort by Descending
+#                 # df2 = df.sort_values('Courses', ascending=False)
+#                 # # Sort by multiple columns
+#                 # df2 = df.sort_values(by=['Courses','Fee'])
+
+#                 # return barchartList_Representativeness[19][0]
+
+#                 # ######################################################################################################################################################
+
+#                 node_data=pd.read_csv(new_filepath_nodes, sep='\t')
+#                 edge_data=pd.read_csv(new_filepath_edges, sep='\t')
+#                 lit_data=pd.read_csv(new_filepath_lit, sep='\t')
+
+#                 node_list=[]
+#                 node_list_final=[]
+
+#                 list_of_nodes=[]
+                
+#                 gene_color='#E8544E'
+#                 mesh_color='#FFD265'
+
+#                 _list_of_nodes_=[]
+#                 for index, row in node_data.iterrows():
+#                     _list_of_nodes_.append(str(row['Node']))
+#                 _list_of_nodes_=list(set(_list_of_nodes_))
+
+#                 dict_expansion_color={0: 'red', 1: 'yellow', 2: 'blue', 3: 'green', 4: 'purple', 5: 'orange', 6: 'pink'}
+#                 edge_list=[]
+#                 list_of_nodes_in_edge_list=[]
+#                 for index, row in edge_data.iterrows():
+#                     if str(row['Node1']) in  _list_of_nodes_ and str(row['Node2']) in  _list_of_nodes_:
+#                         list_of_nodes_in_edge_list.append(str(row['Node1']))
+#                         list_of_nodes_in_edge_list.append(str(row['Node2']))
+#                         # ---------------------------------------------------
+#                         lit_data_df=lit_data.loc[(lit_data['Node1'] == str(row['Node1'])) & (lit_data['Node2'] == str(row['Node2']))]
+#                         lit_data_df_link=lit_data_df['link'].tolist()
+#                         lit_data_df_QuerySet=lit_data_df['QuerySet'].tolist()
+
+#                         lit_data_df2=lit_data.loc[(lit_data['Node1'] == str(row['Node2'])) & (lit_data['Node2'] == str(row['Node1']))]
+#                         lit_data_df2_link=lit_data_df2['link'].tolist()
+#                         lit_data_df2_QuerySet=lit_data_df2['QuerySet'].tolist()
+
+#                         lit_data_df_link=list(set(lit_data_df_link).union(set(lit_data_df2_link)))
+#                         lit_data_df_QuerySet=list(set(lit_data_df_QuerySet).union(set(lit_data_df2_QuerySet)))
+#                         # ---------------------------------------------------
+#                         # # RESPONSE WITHOUT EDGE_LITERATURE_DATA:
+#                         # edge_list.append([str(row['Node1']), str(row['Node2']), dict_expansion_color[row['Expansion']]])
+#                         # # RESPONSE WITH EDGE_LITERATURE_DATA:
+#                         # # Variation-1:
+#                         # lit_data_df_link='\n'.join(lit_data_df_link)
+#                         # lit_data_df_QuerySet='\n'.join(lit_data_df_QuerySet)
+#                         # edge_list.append([str(row['Node1']), str(row['Node2']), dict_expansion_color[row['Expansion']], lit_data_df_link, lit_data_df_QuerySet])
+#                         # # Variation-2:
+#                         edge_list.append([str(row['Node1']), str(row['Node2']), dict_expansion_color[row['Expansion']], lit_data_df_link, lit_data_df_QuerySet])
+#                 list_of_nodes_in_edge_list=list(set(list_of_nodes_in_edge_list))
+
+#                 ###############################################################################################################
+                    
+#                 for index, row in node_data.iterrows():
+
+#                     if str(row['Node']) in list_of_nodes_in_edge_list:
+
+#                         list_of_nodes.append(str(row['Node']))
+
+#                         rad=float(row['Wscore'])*10
+                        
+                        
+#                         if str(row['Category'])=='GENE':
+                            
+#                             data = {
+#                                 "id": str(row['Node']),
+#                                 "marker": {
+#                                     "radius": float(rad)},
+#                                 # "color": '#E8544E'
+#                                 "color": '#000000'
+#                                 }
+                            
+#                             data_json=json.dumps(data)
+#                             data_json=json.loads(data_json)
+#                             node_list.append(data_json)
+
+                        
+#                         elif str(row['Category'])=='MESH':
+                            
+#                             data = {
+#                                 "id": str(row['Node']),
+#                                 "marker": {
+#                                     "radius": float(rad)},
+#                                 # "color": '#FFD265'
+#                                 "color": '#000000'
+#                                 }
+                            
+#                             data_json=json.dumps(data)
+#                             data_json=json.loads(data_json)
+#                             node_list.append(data_json)
+                        
+#                 list_of_nodes=list(set(list_of_nodes))
+                
+
+#                 #******************************************************************#
+#                 # list_of_nodes=list(set(list_of_nodes).intersection(set(list_of_nodes_in_edge_list)))
+#                 #******************************************************************#
+                
+                
+
+#                 # ######################################################################################################################################################
+
+#                 return render_template('results_viz_temp.html', barchartList_Representativeness=barchartList_Representativeness, colors_Representativeness=colors_Representativeness, barchartList_Representativeness_data=barchartList_Representativeness_data, barchartList_Representativeness_categories=barchartList_Representativeness_categories, node_list=node_list, edge_list=edge_list, list_of_nodes=list_of_nodes)
+#             else:
+#                 if error_flag_input_data=='1.(nodes)':
+#                     return render_template('input_error_page_missing_columns.html', error_flag_input_data=error_flag_input_data, node_params_list=node_params_list, error_filename=filename_nodes)
+#                 elif error_flag_input_data=='1.(edges)':
+#                     return render_template('input_error_page_missing_columns.html', error_flag_input_data=error_flag_input_data, edge_params_list=edge_params_list, error_filename=filename_edges)
+#                 elif error_flag_input_data=='1.(lit)':
+#                     return render_template('input_error_page_missing_columns.html', error_flag_input_data=error_flag_input_data, lit_params_list=lit_params_list, error_filename=filename_lit)
+    
+#     # # # return render_template('empty_data_path_error.html')
 
 
 

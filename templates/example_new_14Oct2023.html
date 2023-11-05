@@ -1,0 +1,217 @@
+<script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+    </script>
+<body style = "text-align:center;" id = "body">  
+     <textarea name="content" id="content" cols="30" rows="10"></textarea>
+    <h1 style = "color:green;" >  
+        GeeksForGeeks  
+    </h1>
+     
+    <p id = "GFG_UP" style = 
+        "font-size: 15px; font-weight: bold;">
+    </p>
+ 
+     
+    <!--button onclick = "constructTable('#table')">
+        click here
+    </button-->
+     
+    <br><br>
+     
+    <table align = "center"
+            id="table" border="1">
+    </table>
+     
+   
+</body>
+
+<!---------------------------------------------------------------------------------------->
+
+<script>
+    function deleteData(button) { 
+            
+            // Get the parent row of the clicked button 
+            let row = button.parentNode.parentNode;
+            // alert(row)
+            console.log(row)
+            
+  
+            // Remove the row from the table 
+            // row.parentNode.removeChild(row); 
+        } 
+
+
+
+
+content = document.querySelector("#content");
+var el_up = document.getElementById("GFG_UP");
+         
+        /* var list = [
+            { "col_1": "val_11", "col_3": "val_13" },
+            { "col_2": "val_22", "col_3": "val_23" },
+            { "col_1": "val_31", "col_3": "val_33" }
+        ]; */
+        
+         var list = [
+            { "col_0": "val_00", "col_1": "val_01", "col_2": "val_02" },
+            { "col_0": "val_10", "col_1": "val_11", "col_2": "val_12" },
+            { "col_0": "val_20", "col_1": "val_21", "col_2": "val_22" }
+        ];
+         
+        el_up.innerHTML = "Click on the button to create "
+                +   "the table from the JSON data.<br><br>"
+                + JSON.stringify(list[0]) + "<br>" 
+                + JSON.stringify(list[1]) + "<br>"
+                + JSON.stringify(list[2]) + "<br>"; 
+             
+        
+        
+        		selector="#table"     
+            // Getting the all column names
+            var cols = Headers(list, selector);  
+  
+            // Traversing the JSON data
+            var serial_no=0
+            for (var i = 0; i < list.length; i++) {
+            serial_no=serial_no+1
+                var row = $('<tr/>');
+                row.append($('<td/>').html(serial_no));
+                var counter = 0;
+                for (var colIndex = 0; colIndex < cols.length; colIndex++)
+                {
+                    counter=counter+1;
+                    
+                    var val = list[i][cols[colIndex]];
+                     
+                    // If there is any key, which is matching
+                    // with the column name
+                    row.append($('<td/>').html(val));
+                }
+                
+                console.log('<button sn='+ serial_no + ' class="use-address" onclick="deleteData(this)">Select nodes</button>')
+                row.append($('<td/>').html('<button sn='+ serial_no + ' class="use-address" onclick="deleteData(this)">Select nodes</button>'));
+                
+                // // row.append($('<td/>').html('<button class="use-address" onclick="deleteData(this)">Delete</button>'));
+                 
+                // Adding each row to the table
+                $(selector).append(row);
+            }
+        
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+        $(".use-address").click(function(e) {
+        
+    console.log($(e.target).attr('sn'));
+    
+		console.log($(this).closest("tr").find(".nr").text())
+
+    var $row = $(this).closest("tr");    // Find the row
+    var $text = $row.find(".nr").text(); // Find the text
+    
+    // Let's test it out
+    alert($text);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    var myTab = document.getElementById("table");
+        var tableData = [];
+    // LOOP THROUGH EACH ROW OF THE TABLE AFTER HEADER.
+    for (i = 1; i < myTab.rows.length; i++) {
+        // GET THE CELLS COLLECTION OF THE CURRENT ROW.
+        var objCells = myTab.rows.item(i).cells;
+				var rowData=[]
+        // LOOP THROUGH EACH CELL OF THE CURENT ROW TO READ CELL VALUES.
+        for (var j = 0; j < objCells.length; j++) {
+            rowData.push(objCells.item(j).innerHTML);
+            }
+            
+            
+            tableData.push(rowData)
+
+    }
+    
+    
+    console.log(tableData)
+    
+    console.log(tableData[$(e.target).attr('sn')-1][0])
+    
+    content.value += ','+tableData[$(e.target).attr('sn')-1][0];
+    
+    
+});
+         
+        function Headers(list, selector) {
+            var columns = [];
+            // columns.push('#')
+            var header = $('<tr/>');
+            header.append($('<th/>').html('#'))
+             
+            for (var i = 0; i < list.length; i++) {
+                var row = list[i];
+                 
+                for (var k in row) {
+                    if ($.inArray(k, columns) == -1) {
+                        columns.push(k);
+                         
+                        // Creating the header
+                        header.append($('<th/>').html(k));
+                    }
+                }
+            }
+             
+            // Appending the header to the table
+            $(selector).append(header);
+                return columns;
+        }       
+</script>
