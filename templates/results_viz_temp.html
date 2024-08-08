@@ -123,7 +123,7 @@
 
 <style>
 
-#myBtn {
+.myBtn {
   /* display: none; */
   position: fixed;
   bottom: 20px;
@@ -140,7 +140,14 @@
   border-radius: 4px; */
 }
 
-/* #myBtn:hover {
+/* .fixed-button-style{
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index:50;
+} */
+
+/* .myBtn:hover {
   background-color: #555;
 } */
 
@@ -453,21 +460,7 @@ function printDiv(divId,
 }
   </style>
 
-<!-------------------------------->
 
-  <input type="button" id="myBtn" class="show_hide button-rect button-fixed" value="Show table view">
-  <!--div class="spread1">Test</div-->
- 
-  <script>
-    $('.show_hide').click(function(){
-    $(".NETWORK-VIEW").toggle();
-    $(".TABLE-VIEW").toggle();
-    $(this).val( $(this).val() == 'Show table view' ? 'Show network view' : 'Show table view' );
-    
-});
-  </script>
-
-<!------------------------------------>
 
 <style>
   .float-container {
@@ -490,11 +483,30 @@ function printDiv(divId,
     margin: 0px;
     /* border: 2px solid red; */
 }
-</style> 
+</style>
+
+<input type="button" class="show_hide button-rect button-fixed myBtn" value="Switch view">
   
 <!--section id="section01" class="demo side-by-side-container"-->
 <!--section id="section01" class="demo side-by-side-container"-->
 <div class="NETWORK-VIEW">
+
+<!-------------------------------->
+
+
+<!--div class="spread1">Test</div-->
+
+<script>
+  $('.show_hide').click(function(){
+  $(".NETWORK-VIEW").toggle();
+  $(".TABLE-VIEW").toggle();
+  // $(this).val( $(this).val() == 'Show table view' ? 'Show network view' : 'Show table view' );
+  
+});
+</script>
+
+<!------------------------------------>
+
   <section id="section01">
   
     <!--nav class="navbar navbar-expand-sm navbar-dark bg-dark"-->
@@ -637,32 +649,54 @@ function printDiv(divId,
                                                                                                                                                                                                                                                     <!---------------------------------------------------------------------------->
 
                                                                                                                                                                                                                                                     <br>
-                                                                                                                                                                                                                                                    <div class="horizontal">
-                                                                                                                                                                                                                                                                  <div style="padding-top: 2px;">
-                                                                                                                                                                                                                                                                    <div style="padding-top: 0px;"><label for="fname" >Top&nbsp;&nbsp;&nbsp;</label></div>
-                                                                                                                                                                                                                                                                    <div style="padding-top: 10px;"><input type="number" min="1" max="100" value="50" style="color: black" id="top"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                                                                                                                                                                                                                                                                  </div>
-                                                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                                                  <div>
-                                                                                                                                                                                                                                                                    <div ><label for="fname" >by&nbsp;&nbsp;&nbsp;</label></div>
-                                                                                                                                                                                                                                                                    <div>
-                                                                                                                                                                                                                                                                      <select class="optional-params-dropdown-style" id="by" aria-describedby="normalize" placeholder="normalize" name="use_case_study_data">
-                                                                                                                                                                                                                                                                        <option value="" selected>Choose one (optional)</option>
-                                                                                                                                                                                                                                                                        <option value="Representativeness">Representativeness</option>
-                                                                                                                                                                                                                                                                        <option value="RawOccurrence">Raw occurrence</option>
-                                                                                                                                                                                                                                                                        <option value="BetweennessCentrality">Betweenness centrality</option>
-                                                                                                                                                                                                                                                                        <option value="ClosenessCentrality">Closeness centrality</option>
-                                                                                                                                                                                                                                                                        <option value="Strength">Strength</option>
-                                                                                                                                                                                                                                                                        <option value="Wscore">W-score</option>
-                                                                                                                                                                                                                                                                        <option value="Knode">K-node</option>
-                                                                                                                                                                                                                                                                        <option value="KnodeRank">K-node rank</option>
-                                                                                                                                                                                                                                                                        <option value="CommunityMembership">Community membership</option>
-                                                                                                                                                                                                                                                                      </select>
-                                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                                  </div>
-                                                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                    <br>
+                                                                                                                                                                                                                                                    <!--div class="vertical"-->
+                                                                                                                                                                                                                                                              <div class="horizontal">
+                                                                                                                                                                                                                                                                            <div style="padding-top: 2px;">
+                                                                                                                                                                                                                                                                              <div style="padding-top: 0px;"><label for="fname" >Top&nbsp;&nbsp;&nbsp;</label></div>
+                                                                                                                                                                                                                                                                              <div style="padding-top: 10px;"><input type="number" min="1" max="100" value="50" style="color: black" id="top"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                            <div>
+                                                                                                                                                                                                                                                                              <div><label for="fname">by&nbsp;&nbsp;&nbsp;</label></div>
+                                                                                                                                                                                                                                                                              <div>
+                                                                                                                                                                                                                                                                                <select class="optional-params-dropdown-style" id="by" aria-describedby="normalize" placeholder="normalize" name="use_case_study_data">
+                                                                                                                                                                                                                                                                                  <option value="" selected>Choose one (optional)</option>
+                                                                                                                                                                                                                                                                                  <option value="Representativeness">Representativeness</option>
+                                                                                                                                                                                                                                                                                  <option value="RawOccurrence">Raw occurrence</option>
+                                                                                                                                                                                                                                                                                  <option value="BetweennessCentrality">Betweenness centrality</option>
+                                                                                                                                                                                                                                                                                  <option value="ClosenessCentrality">Closeness centrality</option>
+                                                                                                                                                                                                                                                                                  <option value="Strength">Strength</option>
+                                                                                                                                                                                                                                                                                  <option value="Wscore">W-score</option>
+                                                                                                                                                                                                                                                                                  <option value="Knode">K-node</option>
+                                                                                                                                                                                                                                                                                  <option value="KnodeRank">K-node rank</option>
+                                                                                                                                                                                                                                                                                  <option value="CommunityMembership">Community membership</option>
+                                                                                                                                                                                                                                                                                </select>
+                                                                                                                                                                                                                                                                              </div>
+                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                              </div>
+                                                                                                                                                                                                                                                              <div style="padding-top: 0px;">
+                                                                                                                                                                                                                                                                <div class="horizontal">
+                                                                                                                                                                                                                                                                      <div><label for="fname">Size nodes by&nbsp;&nbsp;&nbsp;</label></div>
+                                                                                                                                                                                                                                                                      <div>
+                                                                                                                                                                                                                                                                        <select class="optional-params-dropdown-style" id="size_nodes_by" aria-describedby="normalize" placeholder="normalize" name="use_case_study_data">
+                                                                                                                                                                                                                                                                          <option value="" selected>Choose one (optional)</option>
+                                                                                                                                                                                                                                                                          <option value="Representativeness">Representativeness</option>
+                                                                                                                                                                                                                                                                          <option value="RawOccurrence">Raw occurrence</option>
+                                                                                                                                                                                                                                                                          <option value="BetweennessCentrality">Betweenness centrality</option>
+                                                                                                                                                                                                                                                                          <option value="ClosenessCentrality">Closeness centrality</option>
+                                                                                                                                                                                                                                                                          <option value="Strength">Strength</option>
+                                                                                                                                                                                                                                                                          <option value="Wscore">W-score</option>
+                                                                                                                                                                                                                                                                          <option value="Knode">K-node</option>
+                                                                                                                                                                                                                                                                          <option value="KnodeRank">K-node rank</option>
+                                                                                                                                                                                                                                                                          <option value="CommunityMembership">Community membership</option>
+                                                                                                                                                                                                                                                                        </select>
+                                                                                                                                                                                                                                                                      </div>
+                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                              </div>
+                                                                                                                                                                                                                                                    <!--/div-->
+
+                                                                                                                                                                                                                                                    <br/><br/>
                                                                                                                                                                                                                                                     <div style="width: 100%">
                                                                                                                                                                                                                                                                 <button class="button button--network-filter--generate-network button-rect">Generate network</button>
                                                                                                                                                                                                                                                     </div>
@@ -837,6 +871,7 @@ function printDiv(divId,
 
                                                                                                                                                                                                                   function off3() {
                                                                                                                                                                                                                     document.getElementById("overlay3").style.display = "none";
+                                                                                                                                                                                                                    // document.getElementById("_hint3_").style.display = "block";
                                                                                                                                                                                                                   }
                                                                                                                                                                                                                 </script>
 
@@ -868,7 +903,7 @@ function printDiv(divId,
                                                                                                                                                                                                                                         </div>
                                                                                                                                                                                                                                       </div>
                                                                                                                                                                                                                                     </div>
-                                                                                                                                                                                                                                    <div class="hint3">
+                                                                                                                                                                                                                                    <div class="hint3" id="_hint3_">
                                                                                                                                                                                                                                       <button class="btn info-button3" onclick="on3()"><i class="fa fa-info"></i></button>
                                                                                                                                                                                                                                     </div>
                                                                                                                                                                                                                 </div>
@@ -916,6 +951,7 @@ function printDiv(divId,
                                                                                                                     </div>
                                                                                                                     <br>
                                                                                                                     
+
 
                                                                                                                     <!-- <div id="add_after_me_hoohah">
                                                                                                                       <div id="hoohah" style="height: 100px; padding-top: 25px; text-align: center; align-items: center; background: #e5e5e5; margin: 0px;"><h4>No edges selected yet!</h4></div>
@@ -1047,7 +1083,7 @@ function printDiv(divId,
 
 
                                                       _edgeInfo_.forEach(function(element) {
-                                                        _listOfEdgeInfos_.push(`<li id='${element}'>` + element + "<button type='button' class='btn btn-delete'" + `onclick=popRules('${element}')>` + "Delete</button>" + "</li>");
+                                                        _listOfEdgeInfos_.push(`<li style="list-style: none;" id='${element}'>` + `<a target="_blank" href="` + element + `">` + element + `</a>` + "<button type='button' class='btn btn-delete'" + `onclick=popRules('${element}')>` + "Delete</button>" + "</li>");
                                                             
                                                         // // listOfEdgeInfos.push(`<li id='${element}'>` + element + "<button type='button' class='btn'" + `onclick=pushRules('${element}')>` + "Add</button>" + "</li>");
                                                             
@@ -1087,19 +1123,7 @@ function printDiv(divId,
                                                           $('#sidebar').toggleClass('active');
                                                         });
 
-                                                        // Highcharts.getJSON('https://demo-live-data.highcharts.com/aapl-c.json', function(data) {
-                                                        //   // Create the chart
-                                                        //   Highcharts.stockChart('container', {
-                                                        //     title: { text: 'AAPL Stock Price'},
-                                                        //     series: [{
-                                                        //       name: 'AAPL',
-                                                        //       data: data,
-                                                        //       tooltip: {
-                                                        //         valueDecimals: 2
-                                                        //       }
-                                                        //     }]
-                                                        //   });
-                                                        // });
+                                                        
                                                         
                                                         document.getElementById("sidebar").addEventListener("transitionend", myEndFunction);
                                                             function myEndFunction() {
@@ -1300,7 +1324,7 @@ $('#'+sidebar_nav_settings).toggle();
         <textarea name="content" id="content" cols="30" rows="10" style="width: 450px; height: 680px;"></textarea>
         <div style="align-items: center;">
           <br>
-          <input type="button" id="myBtn2" class="button button2 show_hide_2 button-rect" value="Generate network">
+          <input type="button" id="myBtn2" class="button button2 show_hide_2 button-rect fixed-button-style" value="Generate network">
           <br>
         </div>
       <!--/div-->
@@ -1634,14 +1658,14 @@ remove_hoohah()
                                   var edgeInfo = link.lit_data_df_link;
                                   var listOfEdgeInfos = [];
                                   var list = document.getElementById("list");
-
+                                  
 
                                   edgeInfo.forEach(function(element) {
                                     if (array1_readList.includes(element)){
-                                      listOfEdgeInfos.push(`<li id='${element}'>` + element + "<button type='button' class='btn btn-delete'" + `onclick=popRules('${element}')>` + "Delete</button>" + "</li>");
+                                      listOfEdgeInfos.push(`<li style="list-style: none;" id='${element}'>` + `<a target="_blank" href="` + element + `">` + element + `</a>` + "<button type='button' class='btn btn-delete'" + `onclick=popRules('${element}')>` + "Delete</button>" + "</li>");
                                     }
                                     else {
-                                      listOfEdgeInfos.push(`<li id='${element}'>` + element + "<button type='button' class='btn btn-add'" + `onclick=pushRules('${element}')>` + "Add</button>" + "</li>");
+                                      listOfEdgeInfos.push(`<li style="list-style: none;" id='${element}'>` + `<a target="_blank" href="` + element + `">` + element + `</a>` + "<button type='button' class='btn btn-add'" + `onclick=pushRules('${element}')>` + "Add</button>" + "</li>");
                                     }
                         
                                     // listOfEdgeInfos.push(`<li id='${element}'>` + element + "<button type='button' class='add-btn'" + `onclick=pushRules('${element}')>` + "Add</button>" + "<button type='button' class='btn'>Delete</button></li>");
@@ -1807,6 +1831,16 @@ remove_hoohah()
     title: {
         text: _title_text_
     },
+
+    credits: {
+        enabled: false
+    },
+    
+    navigation: {
+        buttonOptions: {
+            enabled: true
+        }
+    },
   //-----------------------
 
     // tooltip: {
@@ -1892,6 +1926,15 @@ remove_hoohah()
 
     series: [
         {
+          dataLabels: {
+            enabled: true,
+            textPath: {
+                enabled: true
+            },
+            linkFormat: '',
+            allowOverlap: true
+        },
+
             point: {
       events: {
         click: function() {
@@ -1930,6 +1973,10 @@ remove_hoohah()
         }
       }
     },
+
+    link: {
+          width: 3
+      },
             
             dataLabels: {
                 enabled: true,
@@ -2001,6 +2048,14 @@ remove_hoohah()
 );
 
 $('.show_hide_2').click(function(){
+
+  
+  
+  $(".NETWORK-VIEW").toggle();
+  $(".TABLE-VIEW").toggle();
+  // $(this).val( $(this).val() == 'Show table view' ? 'Show network view' : 'Show table view' );
+ 
+
     // $(".NETWORK-VIEW").toggle();
     // $(".TABLE-VIEW").toggle();
     // $(this).val( $(this).val() == 'Show table view' ? 'Show network view' : 'Show table view' );
@@ -2369,6 +2424,16 @@ remove_hoohah()
     title: {
         text: _title_text_
     },
+
+    credits: {
+        enabled: false
+    },
+
+    navigation: {
+        buttonOptions: {
+            enabled: true
+        }
+    },
   //-----------------------
 
     tooltip: {
@@ -2433,6 +2498,15 @@ remove_hoohah()
 
     series: [
         {
+          dataLabels: {
+            enabled: true,
+            textPath: {
+                enabled: true
+            },
+            linkFormat: '',
+            allowOverlap: true
+        },
+
             point: {
       events: {
         click: function() {
@@ -2471,6 +2545,10 @@ remove_hoohah()
         }
       }
     },
+
+    link: {
+          width: 3
+      },
             
             dataLabels: {
                 enabled: true,
@@ -2533,6 +2611,7 @@ function doStuff() {
     // content = document.querySelector("#content");
     var top=parseInt(document.getElementById("top").value);
     var by=document.getElementById("by").value;
+    var size_nodes_by=document.getElementById("size_nodes_by").value;
     // -----------------------------------------------------
     let topSlicedArray;
     switch (by) {
@@ -2746,16 +2825,15 @@ remove_hoohah()
 
                                   edgeInfo.forEach(function(element) {
                                     if (array1_readList.includes(element)){
-                                      listOfEdgeInfos.push(`<li id='${element}'>` + element + "<button type='button' class='btn btn-delete'" + `onclick=popRules('${element}')>` + "Delete</button>" + "</li>");
+                                      listOfEdgeInfos.push(`<li style="list-style: none;" id='${element}'>` + `<a target="_blank" href="` + element + `">` + element + `</a>` +  "<button type='button' class='btn btn-delete'" + `onclick=popRules('${element}')>` + "Delete</button>" + "</li>");
                                     }
                                     else {
-                                      listOfEdgeInfos.push(`<li id='${element}'>` + element + "<button type='button' class='btn btn-add'" + `onclick=pushRules('${element}')>` + "Add</button>" + "</li>");
+                                      listOfEdgeInfos.push(`<li style="list-style: none;" id='${element}'>` + `<a target="_blank" href="` + element + `">` + element + `</a>` + "<button type='button' class='btn btn-add'" + `onclick=pushRules('${element}')>` + "Add</button>" + "</li>");
                                     }
                         
                                     // listOfEdgeInfos.push(`<li id='${element}'>` + element + "<button type='button' class='add-btn'" + `onclick=pushRules('${element}')>` + "Add</button>" + "<button type='button' class='btn'>Delete</button></li>");
                                     // array1.push(element)
                                   });
-
 
                                   // edgeInfo.forEach(function(element) {
                                   //   listOfEdgeInfos.push(`<li id='${element}'>` + element + "<button type='button' class='add-btn'" + `onclick=pushRules('${element}')>` + "Add</button>" + "<button type='button' class='btn'>Delete</button></li>");
@@ -2915,6 +2993,16 @@ remove_hoohah()
     title: {
         text: _title_text_
     },
+
+    credits: {
+        enabled: false
+    },
+
+    navigation: {
+        buttonOptions: {
+            enabled: true
+        }
+    },
   //-----------------------
 
     tooltip: {
@@ -2979,6 +3067,15 @@ remove_hoohah()
 
     series: [
         {
+          dataLabels: {
+            enabled: true,
+            textPath: {
+                enabled: true
+            },
+            linkFormat: '',
+            allowOverlap: true
+        },
+
             point: {
       events: {
         click: function() {
@@ -3017,6 +3114,10 @@ remove_hoohah()
         }
       }
     },
+
+    link: {
+          width: 3
+      },
             
             dataLabels: {
                 enabled: true,
@@ -3137,7 +3238,7 @@ var el_up = document.getElementById("GFG_UP");
                       lit_count_per_edge=lit_count_per_edge+1;
                       // _id_='ID__edge-'+serial_no.toString()+'pap-'+lit_count_per_edge.toString();
                       // _listOfLitInfos_.push(`<li id='${_id_}'>` + element + "</li>");
-                      _listOfLitInfos_.push(`<li>` + element + "</li>");
+                      _listOfLitInfos_.push(`<li style="list-style: none;">` + `<a target="_blank" href="` + element + `">` + element + `</a>` + "</li>");
                                                       });
                       var _lit_list_in_cell_ = _listOfLitInfos_.join('');
                       var _ul_='<ul>'+_lit_list_in_cell_+'</ul>'
@@ -3159,7 +3260,7 @@ var el_up = document.getElementById("GFG_UP");
                 }
                 
                 console.log('<button sn='+ serial_no + ' class="use-address " onclick="deleteData(this)">Select nodes</button>')
-                row.append($('<td/>').html('<button sn='+ serial_no + ' class="use-address" onclick="deleteData(this)">Select<br>nodes</button>'));
+                row.append($('<td/>').html('<button sn='+ serial_no + ' class="use-address button-rect2" onclick="deleteData(this)">+</button>'));
                 
                 // // row.append($('<td/>').html('<button class="use-address" onclick="deleteData(this)">Delete</button>'));
                  
@@ -3498,10 +3599,10 @@ remove_hoohah()
 
                                   edgeInfo.forEach(function(element) {
                                     if (array1_readList.includes(element)){
-                                      listOfEdgeInfos.push(`<li id='${element}'>` + element + "<button type='button' class='btn btn-delete'" + `onclick=popRules('${element}')>` + "Delete</button>" + "</li>");
+                                      listOfEdgeInfos.push(`<li style="list-style: none;" id='${element}'>` + `<a target="_blank" href="` + element + `">` + element + `</a>` +  "<button type='button' class='btn btn-delete'" + `onclick=popRules('${element}')>` + "Delete</button>" + "</li>");
                                     }
                                     else {
-                                      listOfEdgeInfos.push(`<li id='${element}'>` + element + "<button type='button' class='btn btn-add'" + `onclick=pushRules('${element}')>` + "Add</button>" + "</li>");
+                                      listOfEdgeInfos.push(`<li style="list-style: none;" id='${element}'>` + `<a target="_blank" href="` + element + `">` + element + `</a>` + "<button type='button' class='btn btn-add'" + `onclick=pushRules('${element}')>` + "Add</button>" + "</li>");
                                     }
                         
                                     // listOfEdgeInfos.push(`<li id='${element}'>` + element + "<button type='button' class='add-btn'" + `onclick=pushRules('${element}')>` + "Add</button>" + "<button type='button' class='btn'>Delete</button></li>");
@@ -3667,6 +3768,16 @@ remove_hoohah()
     title: {
         text: _title_text_
     },
+
+    credits: {
+        enabled: false
+    },
+
+    navigation: {
+        buttonOptions: {
+            enabled: true
+        }
+    },
   //-----------------------
 
     tooltip: {
@@ -3731,6 +3842,15 @@ remove_hoohah()
 
     series: [
         {
+          dataLabels: {
+            enabled: true,
+            textPath: {
+                enabled: true
+            },
+            linkFormat: '',
+            allowOverlap: true
+        },
+
             point: {
       events: {
         click: function() {
@@ -3769,6 +3889,10 @@ remove_hoohah()
         }
       }
     },
+
+    link: {
+          width: 3
+      },
             
             dataLabels: {
                 enabled: true,
@@ -3936,10 +4060,10 @@ remove_hoohah()
 
                                   edgeInfo.forEach(function(element) {
                                     if (array1_readList.includes(element)){
-                                      listOfEdgeInfos.push(`<li id='${element}'>` + element + "<button type='button' class='btn btn-delete'" + `onclick=popRules('${element}')>` + "Delete</button>" + "</li>");
+                                      listOfEdgeInfos.push(`<li style="list-style: none;" id='${element}'>` + `<a target="_blank" href="` + element + `">` + element + `</a>` +  "<button type='button' class='btn btn-delete'" + `onclick=popRules('${element}')>` + "Delete</button>" + "</li>");
                                     }
                                     else {
-                                      listOfEdgeInfos.push(`<li id='${element}'>` + element + "<button type='button' class='btn btn-add'" + `onclick=pushRules('${element}')>` + "Add</button>" + "</li>");
+                                      listOfEdgeInfos.push(`<li style="list-style: none;" id='${element}'>` + `<a target="_blank" href="` + element + `">` + element + `</a>` + "<button type='button' class='btn btn-add'" + `onclick=pushRules('${element}')>` + "Add</button>" + "</li>");
                                     }
                         
                                     
@@ -4059,6 +4183,16 @@ remove_hoohah()
     title: {
         text: _title_text_
     },
+
+    credits: {
+        enabled: false
+    },
+
+    navigation: {
+        buttonOptions: {
+            enabled: true
+        }
+    },
   
 
     tooltip: {
@@ -4109,6 +4243,15 @@ remove_hoohah()
 
     series: [
         {
+          dataLabels: {
+            enabled: true,
+            textPath: {
+                enabled: true
+            },
+            linkFormat: '',
+            allowOverlap: true
+        },
+        
             point: {
       events: {
         click: function() {
@@ -4135,6 +4278,10 @@ remove_hoohah()
         }
       }
     },
+
+    link: {
+          width: 3
+      },
             
             dataLabels: {
                 enabled: true,

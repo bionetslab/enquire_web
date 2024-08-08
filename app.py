@@ -1194,6 +1194,76 @@ def run_enquire_temp2():
                                 data_json=json.dumps(data)
                                 data_json=json.loads(data_json)
                                 node_list.append(data_json)
+                                
+                                
+
+                                # data_Representativeness = {
+                                #     "id": str(row['Node']),
+                                #     "marker": {
+                                #         "radius": float(float(row['Representativeness'])*50)},
+                                #     # # "color": '#FFD265'
+                                #     # "color": '#000000'
+                                #     }
+                                # data_json_Representativeness=json.dumps(data_Representativeness)
+                                # data_json_Representativeness=json.loads(data_json_Representativeness)
+                                # node_list_Representativeness.append(data_json_Representativeness)
+                                
+                                # data_RawOccurrence = {
+                                #     "id": str(row['Node']),
+                                #     "marker": {
+                                #         "radius": float(float(row['RawOccurrence'])*50)},
+                                #     # # "color": '#FFD265'
+                                #     # "color": '#000000'
+                                #     }
+                                
+                                # data_BetweennessCentrality = {
+                                #     "id": str(row['Node']),
+                                #     "marker": {
+                                #         "radius": float(float(row['BetweennessCentrality'])*50)},
+                                #     # # "color": '#FFD265'
+                                #     # "color": '#000000'
+                                #     }
+                                
+                                # data_ClosenessCentrality = {
+                                #     "id": str(row['Node']),
+                                #     "marker": {
+                                #         "radius": float(float(row['ClosenessCentrality'])*50)},
+                                #     # # "color": '#FFD265'
+                                #     # "color": '#000000'
+                                #     }
+                                
+                                # data_Strength = {
+                                #     "id": str(row['Node']),
+                                #     "marker": {
+                                #         "radius": float(float(row['Strength'])*50)},
+                                #     # # "color": '#FFD265'
+                                #     # "color": '#000000'
+                                #     }
+                                
+                                # data_Knode = {
+                                #     "id": str(row['Node']),
+                                #     "marker": {
+                                #         "radius": float(float(row['Knode'])*50)},
+                                #     # # "color": '#FFD265'
+                                #     # "color": '#000000'
+                                #     }
+                                
+                                # data_KnodeRank = {
+                                #     "id": str(row['Node']),
+                                #     "marker": {
+                                #         "radius": float(float(row['KnodeRank'])*50)},
+                                #     # # "color": '#FFD265'
+                                #     # "color": '#000000'
+                                #     }
+                                
+                                # data_CommunityMembership = {
+                                #     "id": str(row['Node']),
+                                #     "marker": {
+                                #         "radius": float(float(row['CommunityMembership'])*50)},
+                                #     # # "color": '#FFD265'
+                                #     # "color": '#000000'
+                                #     }
+
                             
                     list_of_nodes=list(set(list_of_nodes))
                     
@@ -1303,6 +1373,68 @@ def run_enquire_temp2():
                     # edgeList_values=edgeList_values.transpose()
                     edgeList_json=edgeList_values.to_json(orient="records")             
 
+
+                # ######################################################################################################################################################
+                node_list_allNodes=[]
+                for i in node_list:
+                    # return i["id"]
+                    node_list_allNodes.append(i['id'])
+                # -----
+                bc_Representativeness=[]
+                for i in barchartList_Representativeness:
+                    if i[0] in node_list_allNodes:
+                        bc_Representativeness.append(i)
+                barchartList_Representativeness=bc_Representativeness.copy()
+                # -----
+                bc_RawOccurrence=[]
+                for i in barchartList_RawOccurrence:
+                    if i[0] in node_list_allNodes:
+                        bc_RawOccurrence.append(i)
+                barchartList_RawOccurrence=bc_RawOccurrence.copy()
+                # -----
+                bc_BetweennessCentrality=[]
+                for i in barchartList_BetweennessCentrality:
+                    if i[0] in node_list_allNodes:
+                        bc_BetweennessCentrality.append(i)
+                barchartList_BetweennessCentrality=bc_BetweennessCentrality.copy()
+                # -----
+                bc_ClosenessCentrality=[]
+                for i in barchartList_ClosenessCentrality:
+                    if i[0] in node_list_allNodes:
+                        bc_ClosenessCentrality.append(i)
+                barchartList_ClosenessCentrality=bc_ClosenessCentrality.copy()
+                # -----
+                bc_Strength=[]
+                for i in barchartList_Strength:
+                    if i[0] in node_list_allNodes:
+                        bc_Strength.append(i)
+                barchartList_Strength=bc_Strength.copy()
+                # -----
+                bc_Wscore=[]
+                for i in barchartList_Wscore:
+                    if i[0] in node_list_allNodes:
+                        bc_Wscore.append(i)
+                barchartList_Wscore=bc_Wscore.copy()
+                # -----
+                bc_Knode=[]
+                for i in barchartList_Knode:
+                    if i[0] in node_list_allNodes:
+                        bc_Knode.append(i)
+                barchartList_Knode=bc_Knode.copy()
+                # -----
+                bc_KnodeRank=[]
+                for i in barchartList_KnodeRank:
+                    if i[0] in node_list_allNodes:
+                        bc_KnodeRank.append(i)
+                barchartList_KnodeRank=bc_KnodeRank.copy()
+                # -----
+
+                bc_CommunityMembership=[]
+                for i in barchartList_CommunityMembership:
+                    if i[0] in node_list_allNodes:
+                        bc_CommunityMembership.append(i)
+                barchartList_CommunityMembership=bc_CommunityMembership.copy()
+                # -----
 
 
                 # ######################################################################################################################################################

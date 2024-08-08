@@ -18,7 +18,7 @@ MacOS: brew install redis
 ```
 
 
-# Hosting ROBUST-Web locally
+# Hosting ENQUIRE-Web locally
 
 1. First start redis server:
 (Redis server has to be run before celery. Otherwise, celery will throw error.)
